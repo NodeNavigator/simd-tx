@@ -1,0 +1,14 @@
+[rpc]
+address = "http://localhost:26657"
+
+[grpc]
+address = "localhost:9090"
+use_tls = false
+
+[wallet]
+mnemonic = "gesture inject test cycle original hollow east ridge hen combine junk child bacon zero hope comfort vacuum milk pitch cage oppose unhappy lunar seat"
+password = ""
+
+[tx]
+gas_limit = 200000
+fees = ""
