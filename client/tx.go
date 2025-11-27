@@ -9,7 +9,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
-	"github.com/cosmos/evm/crypto/ethsecp256k1"
+
+	// "github.com/cosmos/evm/crypto/ethsecp256k1"
+	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
 )
 
 type Tx struct {

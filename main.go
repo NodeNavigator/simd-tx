@@ -14,7 +14,8 @@ import (
 	sdktx "github.com/cosmos/cosmos-sdk/types/tx"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/cosmos/evm/crypto/ethsecp256k1"
+	// "github.com/cosmos/evm/crypto/ethsecp256k1"
+	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
 	"github.com/jaybxyz/simd-tx/client"
 	"github.com/jaybxyz/simd-tx/codec"
 	"github.com/jaybxyz/simd-tx/config"
@@ -28,12 +29,6 @@ TODO
 3. Research Cosmos SDK's written interfaces to see if this code can be shortend in any way or create a simple library to make the process simpler
 
 */
-
-const (
-
-// rpcURL = "localhost:26657"
-// grpcURL        = "localhost:9090"
-)
 
 var (
 	timeout = 5 * time.Second
@@ -56,9 +51,9 @@ func main() {
 	// Use `investnet` as the address prefix instead of the default `cosmos`.
 	// Place this before any address encoding/decoding or calls that depend on the SDK config.
 	cfg := sdk.GetConfig()
-	// cfg.SetBech32PrefixForAccount("investnet", "investnetpub")
-	// cfg.SetBech32PrefixForValidator("investnetvaloper", "investnetvaloperpub")
-	// cfg.SetBech32PrefixForConsensusNode("investnetvalcons", "investnetvalconspub")
+	cfg.SetBech32PrefixForAccount("investnet", "investnetpub")
+	cfg.SetBech32PrefixForValidator("investnetvaloper", "investnetvaloperpub")
+	cfg.SetBech32PrefixForConsensusNode("investnetvalcons", "investnetvalconspub")
 	// If you want to use the Ethereum coin type (BIP44 coin type 60), set it here.
 	// Otherwise change to your network's coin type.
 	cfg.SetCoinType(60)
@@ -107,9 +102,9 @@ func main() {
 	// Create new MsgSend for test
 	msg := banktypes.MsgSend{
 		FromAddress: creator.String(),
-		ToAddress:   "cosmos1fx944mzagwdhx0wz7k9tfztc8g3lkfk6pzezqh",
+		ToAddress:   "investnet1fx944mzagwdhx0wz7k9tfztc8g3lkfk6w756rn",
 		// Token has 18 decimals. To send 10 invst, multiply by 10^18.
-		Amount: sdk.NewCoins(sdk.NewCoin("atest", sdkmath.NewIntWithDecimal(10, 18))),
+		Amount: sdk.NewCoins(sdk.NewCoin("invst", sdkmath.NewIntWithDecimal(10, 18))),
 	}
 	fmt.Println("msg======", msg)
 	msgs := []sdk.Msg{&msg}
@@ -155,14 +150,4 @@ func main() {
 	if resp != nil && resp.TxResponse != nil {
 		log.Info().Msg("http://localhost:1317/cosmos/tx/v1beta1/txs/" + resp.TxResponse.TxHash)
 	}
-
-	// fmt.Println("txBytes====", txBytes)
-	// resp, err := gRPCConn.BroadcastTx(ctx, txBytes, sdktx.BroadcastMode_BROADCAST_MODE_SYNC)
-	// if err != nil {
-	// 	fmt.Printf("failed to broadcast transaction: %v", err)
-	// 	return
-	// }
-
-	// log.Info().Msg("Go to the following link to see if transaction is successfully included in a block")
-	// log.Info().Msg("http://localhost:1317/cosmos/tx/v1beta1/txs/" + resp.TxResponse.TxHash)
 }

@@ -4,8 +4,10 @@ import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/evm/crypto/ethsecp256k1"
-	evmhd "github.com/cosmos/evm/crypto/hd"
+	// "github.com/cosmos/evm/crypto/ethsecp256k1"
+	// evmhd "github.com/cosmos/evm/crypto/hd"
+	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
+	evmhd "github.com/evmos/evmos/v20/crypto/hd"
 )
 
 func RecoverPrivKeyFromMnemonic(mnemonic, password string) (*ethsecp256k1.PrivKey, error) {
