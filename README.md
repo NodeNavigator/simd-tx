@@ -1,13 +1,13 @@
-# Simd Transaction Example
+# Simd Transaction Example (with example of ethscep256k1 algo)
 
-`Simd` is the full node client or daemon built by [SimApp](https://github.com/cosmos/cosmos-sdk/blob/v0.47.4/simapp/README.md), which is an application built using the Cosmos SDK for testing and educational purposes. This repository contains sample code to demonstrate how to wrap message(s) in a transaction.
+`Simd` is the full node client or daemon built by [SimApp](https://github.com/cosmos/cosmos-sdk/blob/v0.50.9/simapp/README.md), which is an application built using the Cosmos SDK for testing and educational purposes. This repository contains sample code to demonstrate how to wrap message(s) in a transaction.
 
 ## Version
 
 | Type | Version |
 |----------------|---------|
-| Cosmos SDK  | 0.47.4     |
-| CometBFT    | 0.37.4     |
+| Cosmos SDK  | v0.50.9     |
+| CometBFT    | v0.38.12     |
 
 ## Configuration
 
