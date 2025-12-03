@@ -7,7 +7,6 @@ import (
 
 	// cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/tx"
-	// "github.com/evmos/evmos/v20/crypto/ethsecp256k1"
 )
 
 // EncodingConfig specifies the concrete encoding types to use for a given app.

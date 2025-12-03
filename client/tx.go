@@ -11,7 +11,7 @@ import (
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 
 	// "github.com/cosmos/evm/crypto/ethsecp256k1"
-	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
+	"github.com/tradeview-local/tradeview-chain/crypto/ethsecp256k1"
 )
 
 type Tx struct {

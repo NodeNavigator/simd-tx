@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
 	"time"
@@ -13,13 +14,14 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdktx "github.com/cosmos/cosmos-sdk/types/tx"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	orderbookTypes "github.com/tradeview-local/tradeview-chain/x/orderbook/types"
 
 	// "github.com/cosmos/evm/crypto/ethsecp256k1"
-	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
 	"github.com/jaybxyz/simd-tx/client"
 	"github.com/jaybxyz/simd-tx/codec"
 	"github.com/jaybxyz/simd-tx/config"
 	"github.com/jaybxyz/simd-tx/wallet"
+	"github.com/tradeview-local/tradeview-chain/crypto/ethsecp256k1"
 )
 
 /*
@@ -51,9 +53,12 @@ func main() {
 	// Use `investnet` as the address prefix instead of the default `cosmos`.
 	// Place this before any address encoding/decoding or calls that depend on the SDK config.
 	cfg := sdk.GetConfig()
-	cfg.SetBech32PrefixForAccount("investnet", "investnetpub")
-	cfg.SetBech32PrefixForValidator("investnetvaloper", "investnetvaloperpub")
-	cfg.SetBech32PrefixForConsensusNode("investnetvalcons", "investnetvalconspub")
+	// cfg.SetBech32PrefixForAccount("investnet", "investnetpub")
+	// cfg.SetBech32PrefixForValidator("investnetvaloper", "investnetvaloperpub")
+	// cfg.SetBech32PrefixForConsensusNode("investnetvalcons", "investnetvalconspub")
+	cfg.SetBech32PrefixForAccount("tradeview", "tradeviewpub")
+	cfg.SetBech32PrefixForValidator("tradeviewvaloper", "tradeviewvaloperpub")
+	cfg.SetBech32PrefixForConsensusNode("tradeviewvalcons", "tradeviewvalconspub")
 	// If you want to use the Ethereum coin type (BIP44 coin type 60), set it here.
 	// Otherwise change to your network's coin type.
 	cfg.SetCoinType(60)
@@ -99,6 +104,38 @@ func main() {
 		panic(fmt.Errorf("failed to parse coins %w", err))
 	}
 
+	orderJson := `{
+    "user": "0xc64cc00b46101bd40aa1c3121195e85c0b0918d7",
+    "status": "canceled",
+    "hash": "hjkk",
+    "coin": "ZRO",
+    "side": "B",
+    "limitPx": "12564",
+    "sz": "15007",
+    "oid": 12348,
+    "timestamp": 1763721938491,
+    "triggerCondition": "N/A",
+    "isTrigger": true,
+    "triggerPx": "100",
+    "isPositionTpsl": true,
+    "reduceOnly": true,
+    "orderType": "Limit",
+    "origSz": "15007",
+    "tif": "Alo",
+    "cloid": "12"
+}`
+	var order orderbookTypes.Order
+	err = json.Unmarshal([]byte(orderJson), &order)
+	if err != nil {
+		panic(fmt.Errorf("failed to unmarshal order JSON: %w", err))
+	}
+	fmt.Println("order after unmarshal======", order)
+	msg1 := &orderbookTypes.MsgAddOrder{
+		User:  creator.String(),
+		Order: order,
+	}
+	fmt.Println("msg1======", msg1)
+	msgs := []sdk.Msg{msg1}
 	// Create new MsgSend for test
 	msg := banktypes.MsgSend{
 		FromAddress: creator.String(),
@@ -107,7 +144,7 @@ func main() {
 		Amount: sdk.NewCoins(sdk.NewCoin("invst", sdkmath.NewIntWithDecimal(10, 18))),
 	}
 	fmt.Println("msg======", msg)
-	msgs := []sdk.Msg{&msg}
+	// msgs1 := []sdk.Msg{&msg}
 
 	tx := client.NewTx(
 		chainID,
